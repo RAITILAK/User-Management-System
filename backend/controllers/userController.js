@@ -83,6 +83,7 @@ const getUserById = async (req, res) => {
 // @access  Admin only
 const createUser = async (req, res) => {
   try {
+    console.log("BODY RECEIVED:", req.body);
     const { name, email, password, role, status } = req.body;
 
     const userExists = await User.findOne({ email });
@@ -96,8 +97,8 @@ const createUser = async (req, res) => {
       password: password || "Password@123", // default password if not provided
       role: role || "user",
       status: status || "active",
-      createdBy: req.user._id,
-      updatedBy: req.user._id,
+      createdBy: req.user._id || null,
+      updatedBy: req.user._id || null,
     });
 
     res.status(201).json({
@@ -109,6 +110,7 @@ const createUser = async (req, res) => {
       createdBy: user.createdBy,
     });
   } catch (error) {
+    console.error("REGISTER ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 };

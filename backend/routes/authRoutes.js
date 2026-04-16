@@ -7,7 +7,14 @@ const {
   logoutUser,
 } = require("../controllers/authController");
 
-router.post("/register", registerUser);
+router.post(
+  "/register",
+  (req, res, next) => {
+    console.log("ROUTE HIT");
+    next();
+  },
+  registerUser,
+);
 router.post("/login", loginUser);
 router.post("/refresh", refreshAccessToken);
 router.post("/logout", logoutUser);

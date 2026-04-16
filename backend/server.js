@@ -10,6 +10,10 @@ dotenv.config();
 connectDB();
 
 const app = express();
+app.use((req, res, next) => {
+  console.log("REQUEST HIT:", req.method, req.url);
+  next();
+});
 
 app.use(
   cors({
@@ -20,6 +24,10 @@ app.use(
 app.use(express.json()); // parsde JSON bodies
 app.use(cookieParser()); // parse cookies
 
+app.use((req, res, next) => {
+  console.log("HIT:", req.method, req.url, req.body);
+  next();
+});
 //Health check route
 app.get("/", (req, res) => {
   res.json({ message: "API is running" });
